@@ -1,0 +1,15 @@
+version: 2
+updates:
+- package-ecosystem: gomod
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: github.com/segmentio/kafka-go
+    versions:
+    - 0.4.10
+    - 0.4.11
+    - 0.4.12
+    - 0.4.13
+    - 0.4.14
