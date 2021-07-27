@@ -16,7 +16,7 @@ import (
 	"github.com/aravinth2094/GoProxy/socks5"
 )
 
-var blacklist map[string]bool = make(map[string]bool, 0)
+var blacklist map[string]bool = make(map[string]bool)
 var initChannel chan interface{} = make(chan interface{}, 1)
 
 // DownloadFile downloads a file from the url and saves to local file
