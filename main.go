@@ -19,6 +19,10 @@ import (
 var blacklist map[string]bool = make(map[string]bool)
 var initChannel chan interface{} = make(chan interface{}, 1)
 
+const (
+	BLACK_LIST_FILE = "blacklist.txt"
+)
+
 // DownloadFile downloads a file from the url and saves to local file
 func DownloadFile(filepath string, url string) error {
 
@@ -57,7 +61,7 @@ func Parse(filepath string) {
 		}
 		split := strings.Split(line, " ")
 		if len(split) > 1 {
-			blacklist[strings.TrimSpace(split[1])] = true
+			block(strings.TrimSpace(split[1]))
 			count++
 		}
 	}
@@ -70,13 +74,13 @@ func Parse(filepath string) {
 
 func createBlacklist() {
 	log.Println("Downloading latest blacklist...")
-	err := DownloadFile("blacklist.txt", "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts")
+	err := DownloadFile(BLACK_LIST_FILE, "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts")
 	if err != nil {
 		log.Fatalln(err)
 	}
 	log.Println("Parsing the blacklist file...")
-	Parse("blacklist.txt")
-	os.Remove("blacklist.txt")
+	Parse(BLACK_LIST_FILE)
+	os.Remove(BLACK_LIST_FILE)
 }
 
 func isBlocked(host string) bool {
